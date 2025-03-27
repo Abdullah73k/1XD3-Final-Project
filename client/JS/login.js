@@ -1,10 +1,19 @@
 let signup = document.getElementById("sign-up-button");
 let login = document.getElementById("login");
+let email = document.getElementById("email");
+let password = document.getElementById("password");
 
-signup.addEventListener('click', () => {
-    window.location.href = "../views/signup.html"
-})
+let emailValue = email.value;
+let passwordValue = password.value;
 
-login.addEventListener('click', () => {
-    window.location.href = "../index.html"
-})
+signup.addEventListener("click", () => {
+	window.location.href = "../views/signup.html";
+});
+
+login.addEventListener("click", () => {
+	if (emailValue === "" || passwordValue === "") {
+		return;
+	} else {
+		window.location.href = "../index.html";
+	}
+});
