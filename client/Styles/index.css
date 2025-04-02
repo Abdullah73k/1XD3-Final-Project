@@ -1,0 +1,37 @@
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+td {
+    height: 100%;
+    text-align: center;
+}
+
+#calendar {
+    table-layout: fixed;
+    width: 100%;
+    font-size: 1.3em;
+}
+
+table {
+    width: 100%;
+}
+
+#container {
+    margin: auto;
+    max-width: 500px;
+    padding: 1%;
+}
+
+form {
+    text-align: left;
+}
+
+td a {
+    display:block;
+    width:100%;
+    background-color: rgba(0, 10, 20, 0.15);
+}
+#monthname{
+    font-size: 2.5em;
+}
