@@ -47,7 +47,10 @@ try {
         $stmt->execute([$email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // Inside the login success block:
         if ($user && password_verify($password, $user['password'])) {
+            session_start();
+            $_SESSION['user_id'] = $user['id'];
             echo json_encode([
                 'success' => true,
                 'message' => 'Login successful!'
