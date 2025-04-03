@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Task</title>
+  <style>
+    /* simple style */
+    form {
+      margin: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      width: 300px;
+    }
+    input, textarea {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    button {
+      width: 100%;
+      padding: 8px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Add a New Task</h2>
+
+  <form id="taskForm">
+    <label>Title:</label>
+    <input type="text" name="title" id="title" required>
+
+    <label>Description:</label>
+    <textarea name="description" id="description" rows="3"></textarea>
+
+    <label>Due Date:</label>
+    <input type="datetime-local" name="due_date" id="due_date">
+
+    <button type="submit">Add Task</button>
+  </form>
+
+  <script>
+    document.getElementById('taskForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // prevent the normal submission
+
+      const title = document.getElementById('title').value;
+      const description = document.getElementById('description').value;
+      const due_date = document.getElementById('due_date').value;
+
+      fetch('../api/add_task.php', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              title,
+              description,
+              due_date
+          })
+      })
+      .then(response => response.json())
+      .then(data => {
+          alert(data.message);
+          if (data.success) {
+              location.reload();  // if success, move the page
+          }
+      })
+      .catch(error => {
+          alert('Error: ' + error.message);
+      });
+    });
+  </script>
+
+</body>
+</html>
