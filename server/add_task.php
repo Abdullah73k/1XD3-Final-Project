@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 // get the input 
 $title       = trim($_POST['title'] ?? '');
 $description = trim($_POST['description'] ?? '');
-$due_date    = $_POST['due_date'] ?? null;  // datetime-local 은 'YYYY-MM-DDTHH:MM' 형식
+$due_date    = $_POST['due_date'] ?? null;  
 
 // check
 if ($title === '') {
