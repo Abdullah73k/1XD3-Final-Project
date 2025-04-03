@@ -3,15 +3,20 @@ window.addEventListener("load", () => {
     let currentYear = new Date().getFullYear();
     let currentMonth = new Date().getMonth();
 
+    // Get DOM elements
+    const monthTitle = document.querySelector(".month-title");
+    const calendarBody = document.querySelector("#calendar tbody");
+    const generateForm = document.getElementById("generateForm");
+    const prevMonthBtn = document.getElementById("prevMonth");
+    const nextMonthBtn = document.getElementById("nextMonth");
+    const monthSelect = document.getElementById("month");
+    const yearInput = document.getElementById("year");
 
+    // Initialize calendar
     renderCalendar(currentMonth, currentYear);
 
-    let calendar = document.getElementById("calendar");
-    let generateForm = document.getElementById("generateForm");
-    let prevMonth = document.getElementById("prevMonth");
-    let nextMonth = document.getElementById("nextMonth");
-
-    prevMonth.addEventListener("click", () => {
+    // Event Listeners
+    prevMonthBtn.addEventListener("click", () => {
         currentMonth--;
         if (currentMonth < 0) {
             currentMonth = 11;
@@ -20,7 +25,7 @@ window.addEventListener("load", () => {
         renderCalendar(currentMonth, currentYear);
     });
 
-    nextMonth.addEventListener("click", () => {
+    nextMonthBtn.addEventListener("click", () => {
         currentMonth++;
         if (currentMonth > 11) {
             currentMonth = 0;
@@ -31,166 +36,84 @@ window.addEventListener("load", () => {
 
     generateForm.addEventListener("submit", (event) => {
         event.preventDefault();
-
-        let monthInput = document.getElementById("month");
-        let yearInput = document.getElementById("year");
-
-
-        let month = stringToMonth(monthInput.value);
+        
+        const month = parseInt(monthSelect.value);
         let year = parseInt(yearInput.value);
 
-        //Validation
-        if (isNaN(year)) {
-            year = currentYear;//Unusable Input yields current year
-        }
-
-
+        // Validation
+        if (isNaN(year)) year = currentYear;
         if (isNaN(month)) {
-            month = 0; //Unusable input yields January
+            currentMonth = 0;
         } else {
-            //Month needs to be made less than 12 if it's greater
-            while (month > 13) {
-                month -= 12;
-                year++; //Increment year, so that the 24th month is December of the next year
-            }
+            currentMonth = month;
         }
 
-        if (year > MAX_YEAR) {
-            year = MAX_YEAR;
-        }
+        if (year > MAX_YEAR) year = MAX_YEAR;
 
-        renderCalendar(month, year);
-        currentMonth = month;
+        renderCalendar(currentMonth, year);
         currentYear = year;
-        monthInput.value = "";
-        yearInput.value = "";
     });
 
     function renderCalendar(month, year) {
-        clearCalendar();
-        let numDays = new Date(year, month + 1, 0).getDate();
+        // Update month title
+        monthTitle.textContent = `${monthToString(month)} ${year}`;
 
-        let monthname = document.getElementById("monthname");
-        monthname.innerHTML = monthToString(month) + " " + year;
+        // Clear existing calendar
+        calendarBody.innerHTML = '';
 
-        let week = 1;
+        // Get days in month and first day
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const firstDay = new Date(year, month, 1).getDay();
 
-        for (let i = 1; i <= numDays; i++) {
-            let today = new Date(year, month, i);
-            let weekday = today.getDay();
+        let date = 1;
+        
+        // Create 6 rows (weeks)
+        for (let i = 0; i < 6; i++) {
+            const row = document.createElement("tr");
+            row.className = "week-row";
 
-            let dayModify = document.getElementById("(" + week + "," + weekday + ")");
+            // Create 7 cells (days) for each week
+            for (let j = 0; j < 7; j++) {
+                const cell = document.createElement("td");
+                cell.className = "calendar-day";
 
-            dayModify.innerHTML = "<a href=./dayView.php>" + i + "</a>";
+                if (i === 0 && j < firstDay) {
+                    // Empty cells before first day
+                    cell.classList.add("empty");
+                } else if (date > daysInMonth) {
+                    // Empty cells after last day
+                    cell.classList.add("empty");
+                } else {
+                    // Cells with dates
+                    cell.innerHTML = `<a href="./dayView.php?day=${date}&month=${month}&year=${year}">${date}</a>`;
+                    
+                    // Highlight current day
+                    const today = new Date();
+                    if (date === today.getDate() && 
+                        month === today.getMonth() && 
+                        year === today.getFullYear()) {
+                        cell.classList.add("today");
+                    }
+                    
+                    date++;
+                }
 
-            if (weekday > 5) {
-                week++;
+                row.appendChild(cell);
             }
-        }
 
-        //Hide Empty Weeks
-        if (document.getElementById("(6,0)").innerHTML == "") {
-            document.getElementById("week6").style.visibility = "hidden";
-            if (document.getElementById("(5,0)").innerHTML == "") {
-                document.getElementById("week5").style.visibility = "hidden";
-            }
-        }
+            calendarBody.appendChild(row);
 
-    }
-    function clearCalendar() {
-        for (let i = 1; i <= 6; i++) {
-            for (let j = 0; j <= 6; j++) {
-                document.getElementById("(" + i + "," + j + ")").innerHTML = "";
-            }
+            // Stop creating rows if we've shown all days
+            if (date > daysInMonth) break;
         }
-        document.getElementById("week6").style.visibility = "visible";
-        document.getElementById("week5").style.visibility = "visible";
     }
 
     function monthToString(month) {
-        switch (month) {
-            case 0:
-                return "January";
-                break;
-            case 1:
-                return "February";
-                break;
-            case 2:
-                return "March";
-                break;
-            case 3:
-                return "April";
-                break;
-            case 4:
-                return "May";
-                break;
-            case 5:
-                return "June";
-                break;
-            case 6:
-                return "July";
-                break;
-            case 7:
-                return "August";
-                break;
-            case 8:
-                return "September";
-                break;
-            case 9:
-                return "October";
-                break;
-            case 10:
-                return "November";
-                break;
-            case 11:
-                return "December";
-                break;
-            default:
-                return null; 
-        }
+        const months = [
+            "January", "February", "March", "April",
+            "May", "June", "July", "August",
+            "September", "October", "November", "December"
+        ];
+        return months[month];
     }
-
-    function stringToMonth(month) {
-        switch (month) {
-            case "January":
-                return 0;
-                break;
-            case "February":
-                return 1;
-                break;
-            case "March":
-                return 2;
-                break;
-            case "April":
-                return 3;
-                break;
-            case "May":
-                return 4;
-                break;
-            case "June":
-                return 5;
-                break;
-            case "July":
-                return 6;
-                break;
-            case "August":
-                return 7;
-                break;
-            case "September":
-                return 8;
-                break;
-            case "October":
-                return 9;
-                break;
-            case "November":
-                return 10;
-                break;
-            case "December":
-                return 11;
-                break;
-            default:
-                return null;
-        }
-    }
-    
 });
