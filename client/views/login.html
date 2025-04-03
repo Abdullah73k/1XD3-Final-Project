@@ -1,29 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Login Page</title>
-		<link rel="stylesheet" href="../Styles/login.css">
-	</head>
-	<body>
-		<h2>Login</h2>
-		<form action="" method="POST" class="login">
-			<label for="email">Email</label>
-			<input type="email" id="email" required />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link rel="stylesheet" href="../Styles/login.css">
+  </head>
+  <body>
+    <h2>Login</h2>
+    <!-- Remove the action attribute if you want to use fetch -->
+    <form method="POST" class="login">
+      <label for="email">Email</label>
+      <input type="email" id="email" required />
+      <label for="password">Password</label>
+      <input type="password" id="password" required />
+      <button type="submit" id="login">Login</button>
+    </form>
 
-			<label for="password">Password</label>
-			<input type="password" id="password" required />
-
-			<button id="login">Login</button>
-		</form>
-
-		<div class="signup-container">
-			<p>
-				Not registered yet? Click the button below to go to the signup page!
-			</p>
-			<button id="sign-up-button">Signup</button>
-		</div>
-		<script src="../JS/login.js"></script>
-	</body>
+    <div class="signup-container">
+      <p>Not registered yet? Click the button below to go to the signup page!</p>
+      <button id="sign-up-button">Signup</button>
+    </div>
+    
+	<p id="p"></p>
+    <script src="../JS/auth.js"></script>
+    <script>
+      // Add a simple event listener for navigation outside the form
+      document.getElementById("sign-up-button").addEventListener("click", () => {
+        window.location.href = "../views/signup.html";
+      });
+    </script>
+  </body>
 </html>

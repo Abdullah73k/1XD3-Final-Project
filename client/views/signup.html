@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Sign Up Page</title>
-		<link rel="stylesheet" href="../Styles/signup.css" />
-	</head>
-	<body>
-		<h2>Signup</h2>
-		<form action="" method="POST" class="signup">
-			<label for="email">Email</label>
-			<input type="email" name="email" id="email" required />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up Page</title>
+    <link rel="stylesheet" href="../Styles/signup.css" />
+  </head>
+  <body>
+    <h2>Signup</h2>
+    <form method="POST" class="signup">
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required />
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required />
+      <button type="submit" id="signup">Signup</button>
+    </form>
+    
+    <div class="login-container">
+      <p>Already have an account? Click the button below to go to the login page!</p>
+      <button id="log-in-button">Login</button>
+    </div>
 
-			<label for="password">Password</label>
-			<input type="password" name="password" id="password" required />
-
-			<button id="signup">Signup</button>
-		</form>
-		<div class="login-container">
-			<p>
-				Already have an account? Click the button below to go to the login page!
-			</p>
-			<button id="log-in-button">Login</button>
-		</div>
-		<script src="../JS/signup.js"></script>
-	</body>
+    <p id="p"></p>
+    
+    <script src="../JS/auth.js"></script>
+    <script>
+      document.getElementById("log-in-button").addEventListener("click", () => {
+        window.location.href = "../views/login.html";
+      });
+    </script>
+  </body>
 </html>
