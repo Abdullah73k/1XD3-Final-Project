@@ -85,7 +85,13 @@ window.addEventListener("load", () => {
                     cell.classList.add("empty");
                 } else {
                     // Cells with dates
-                    cell.innerHTML = `<a href="./dayView.php?day=${date}&month=${month}&year=${year}">${date}</a>`;
+                    // In the renderCalendar function, modify the cell content:
+                    // In the renderCalendar function, modify the cell content:
+                    cell.innerHTML = `
+                    <a href="dayView.php?date=${year}-${month+1}-${date}" class="day-link">
+                    ${date}
+                    </a>
+                    `;
                     
                     // Highlight current day
                     const today = new Date();
