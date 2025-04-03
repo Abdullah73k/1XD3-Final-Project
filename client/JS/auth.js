@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		};
 
         console.log(payload);
-		fetch("http://localhost/1XD3-Final-Project/server/auth/auth.php", {
+		fetch("https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/auth/auth.php", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
