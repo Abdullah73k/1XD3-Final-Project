@@ -8,7 +8,6 @@
   </head>
   <body>
     <h2>Login</h2>
-    <!-- Remove the action attribute if you want to use fetch -->
     <form method="POST" class="login">
       <label for="email">Email</label>
       <input type="email" id="email" required />
@@ -25,7 +24,6 @@
 	<p id="p"></p>
     <script src="../JS/auth.js"></script>
     <script>
-      // Add a simple event listener for navigation outside the form
       document.getElementById("sign-up-button").addEventListener("click", () => {
         window.location.href = "../views/signup.html";
       });
