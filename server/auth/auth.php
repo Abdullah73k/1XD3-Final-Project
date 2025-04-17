@@ -24,6 +24,53 @@ if (!$email || !$password || $action === '') {
 
 try {
     if ($action === 'signup') {
+        // Server-side email validation
+        $emailRegex = '/^[^\s@]+@([^\s@]+)\.([^\s@]+)$/';
+        if (!preg_match($emailRegex, $email)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Email must be in a valid format.'
+            ]);
+            exit;
+        }
+        
+        // Check if email domain is from a common provider
+        $validEmailDomains = ["gmail", "hotmail", "outlook", "yahoo", "icloud", "aol", "protonmail"];
+        $emailDomain = strtolower(explode('@', $email)[1]);
+        $isDomainValid = false;
+        
+        foreach ($validEmailDomains as $domain) {
+            if (strpos($emailDomain, $domain) !== false) {
+                $isDomainValid = true;
+                break;
+            }
+        }
+        
+        if (!$isDomainValid) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Please use a common email provider.'
+            ]);
+            exit;
+        }
+        
+        // Server-side password validation
+        if (strlen($password) < 8) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Password must be at least 8 characters long.'
+            ]);
+            exit;
+        }
+        
+        if (!preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Password must contain at least one uppercase letter and one number.'
+            ]);
+            exit;
+        }
+
         $stmt = $dbh->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->execute([$email]);
 
