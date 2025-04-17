@@ -17,6 +17,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		const email = form.querySelector("#email").value;
 		const password = form.querySelector("#password").value;
+        
+        // Add validation for signup
+        if (action === "signup") {
+            // Email validation
+            const validEmailDomains = ["gmail.com", "hotmail.com", "outlook.com", "yahoo.com", "icloud.com", "aol.com", "protonmail.com"];
+            const emailRegex = /^[^\s@]+@([^\s@]+)\.([^\s@]+)$/;
+            
+            if (!emailRegex.test(email)) {
+                const errorMessage = document.getElementById("p");
+                errorMessage.textContent = "Email must be in a valid format with @ and . characters.";
+                return;
+            }
+            
+            const emailDomain = email.split('@')[1].toLowerCase();
+            const isDomainValid = validEmailDomains.some(domain => emailDomain.includes(domain.split('.')[0]));
+            
+            if (!isDomainValid) {
+                const errorMessage = document.getElementById("p");
+                errorMessage.textContent = "Please use a common email provider (Gmail, Hotmail, Outlook, Yahoo, etc.)";
+                return;
+            }
+            
+            // Password validation
+            if (password.length < 8) {
+                const errorMessage = document.getElementById("p");
+                errorMessage.textContent = "Password must be at least 8 characters long.";
+                return;
+            }
+            
+            const hasUppercase = /[A-Z]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            
+            if (!hasUppercase || !hasNumber) {
+                const errorMessage = document.getElementById("p");
+                errorMessage.textContent = "Password must contain at least one uppercase letter and one number.";
+                return;
+            }
+        }
 
 		const payload = {
 			email: email,
