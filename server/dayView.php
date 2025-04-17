@@ -72,6 +72,21 @@ try {
         <?php endif; ?>
     </div>
     
+    <h2>Add a New Task</h2>
+<form action="../api/add_task.php" method="POST">
+    <input type="hidden" name="day" value="<?= $day ?>">
+    <input type="hidden" name="month" value="<?= $month ?>">
+    <input type="hidden" name="year" value="<?= $year ?>">
+
+    <label>Title:</label>
+    <input type="text" name="title" required><br>
+
+    <label>Description:</label>
+    <textarea name="description" rows="3"></textarea><br>
+
+    <button type="submit">➕ Add Task</button>
+</form>
+    
     <a href="../index.html">Back to Calendar</a>
 </body>
 </html>
