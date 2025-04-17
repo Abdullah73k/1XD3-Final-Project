@@ -5,7 +5,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 include '../connect.php';
 
-// ✅ 세션 시작 (항상 제일 위에서!)
+// session start
 session_start();
 
 $data = json_decode(file_get_contents('php://input'), true);
