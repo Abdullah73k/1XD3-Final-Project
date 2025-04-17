@@ -2,18 +2,24 @@
 include '../connect.php';
 session_start();
 
-// check the login status
+// check log in
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../views/login.html");
     exit;
 }
 
-// get the input 
-$title       = trim($_POST['title'] ?? '');
+$title = trim($_POST['title'] ?? '');
 $description = trim($_POST['description'] ?? '');
-$due_date    = $_POST['due_date'] ?? null;  
 
-// check
+$day = $_POST['day'] ?? '';
+$month = $_POST['month'] ?? '';
+$year = $_POST['year'] ?? '';
+
+$due_date = null;
+if ($day && $month !== '' && $year) {
+    $due_date = sprintf('%04d-%02d-%02d 00:00:00', $year, $month + 1, $day);
+}
+
 if ($title === '') {
     echo "Title is required.";
     exit;
@@ -25,11 +31,11 @@ try {
         $_SESSION['user_id'],
         $title,
         $description,
-        $due_date ? date('Y-m-d H:i:s', strtotime($due_date)) : null
+        $due_date
     ]);
 
-    // add and redirection
-    header("Location: ../views/dayView.php?day=" . date('j') . "&month=" . (date('n') - 1) . "&year=" . date('Y'));
+    //go back to the date
+    header("Location: ../server/dayView.php?day=$day&month=$month&year=$year");
     exit;
 
 } catch (PDOException $e) {
