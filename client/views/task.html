@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Add Task</title>
   <style>
-    /* simple style */
     form {
       margin: 20px;
       padding: 10px;
@@ -26,6 +25,24 @@
     button:hover {
       background-color: #45a049;
     }
+    .task-container {
+      margin: 20px;
+    }
+    .task-item {
+      border-bottom: 1px solid #ccc;
+      padding: 8px 0;
+    }
+    .task-actions {
+      margin-top: 5px;
+    }
+    .task-actions button {
+      width: auto;
+      margin-right: 10px;
+      background-color: #f44336;
+    }
+    .task-actions button.complete {
+      background-color: #2196F3;
+    }
   </style>
 </head>
 <body>
@@ -45,9 +62,14 @@
     <button type="submit">Add Task</button>
   </form>
 
+  <h2>Your Tasks</h2>
+  <div class="task-container" id="taskContainer">
+    <!-- tasks will be loaded here -->
+  </div>
+
   <script>
     document.getElementById('taskForm').addEventListener('submit', function(e) {
-      e.preventDefault(); // prevent the normal submission
+      e.preventDefault();
 
       const title = document.getElementById('title').value;
       const description = document.getElementById('description').value;
@@ -58,24 +80,77 @@
           headers: {
               'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-              title,
-              description,
-              due_date
-          })
+          body: JSON.stringify({ title, description, due_date })
       })
       .then(response => response.json())
       .then(data => {
           alert(data.message);
           if (data.success) {
-              location.reload();  // if success, move the page
+              loadTasks();
+              document.getElementById('taskForm').reset();
           }
       })
       .catch(error => {
           alert('Error: ' + error.message);
       });
     });
-  </script>
 
+    function loadTasks() {
+      fetch('../api/get_tasks.php')
+        .then(res => res.json())
+        .then(data => {
+          const container = document.getElementById('taskContainer');
+          container.innerHTML = '';
+
+          if (data.length === 0) {
+            container.innerHTML = '<p>No tasks found.</p>';
+            return;
+          }
+
+          data.forEach(task => {
+            const div = document.createElement('div');
+            div.className = 'task-item';
+            div.innerHTML = `
+              <strong>${task.title}</strong><br>
+              ${task.description}<br>
+              <em>${task.due_date}</em>
+              <div class="task-actions">
+                <button onclick="completeTask(${task.id})" class="complete">Complete</button>
+                <button onclick="deleteTask(${task.id})">Delete</button>
+              </div>
+            `;
+            container.appendChild(div);
+          });
+        });
+    }
+
+    function completeTask(id) {
+      fetch('../api/complete.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ task_id: id })
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        loadTasks();
+      });
+    }
+
+    function deleteTask(id) {
+      fetch('../api/delete_task.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ task_id: id })
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        loadTasks();
+      });
+    }
+
+    loadTasks();
+  </script>
 </body>
 </html>
