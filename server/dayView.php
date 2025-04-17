@@ -3,7 +3,7 @@ include 'connect.php';
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /~khamia4/1XD3-Final-Project/client/views/login.html"); // ✅ 절대 경로로 수정
+    header("Location: /~khamia4/1XD3-Final-Project/client/views/login.html"); 
     exit;
 }
 
