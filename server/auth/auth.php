@@ -1,12 +1,12 @@
 <?php
+session_start();
+
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: https://cs1xd3.cas.mcmaster.ca');
 header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Credentials: true');
 
 include '../connect.php';
-
-// session start
-session_start();
 
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -52,7 +52,6 @@ try {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
-            // save login info in session
             $_SESSION['user_id'] = $user['id'];
 
             echo json_encode([
