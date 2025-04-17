@@ -5,10 +5,10 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 include '../connect.php';
 
+// ✅ 세션 시작 (항상 제일 위에서!)
+session_start();
+
 $data = json_decode(file_get_contents('php://input'), true);
-// error_log(print_r($data, return: true));  // Logs data to your PHP error log
-// echo json_encode(['action' => $data]);
-// exit;
 
 $action   = $data['action'] ?? '';
 $email    = trim($data['email'] ?? '');
@@ -26,6 +26,7 @@ try {
     if ($action === 'signup') {
         $stmt = $dbh->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->execute([$email]);
+
         if ($stmt->fetch(PDO::FETCH_ASSOC)) {
             echo json_encode([
                 'success' => false,
@@ -51,6 +52,9 @@ try {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
+            // save login info in session
+            $_SESSION['user_id'] = $user['id'];
+
             echo json_encode([
                 'success' => true,
                 'message' => 'Login successful!'
