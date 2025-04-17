@@ -3,47 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Add Task</title>
-  <style>
-    form {
-      margin: 20px;
-      padding: 10px;
-      border: 1px solid #ddd;
-      width: 300px;
-    }
-    input, textarea {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-    button {
-      width: 100%;
-      padding: 8px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    .task-container {
-      margin: 20px;
-    }
-    .task-item {
-      border-bottom: 1px solid #ccc;
-      padding: 8px 0;
-    }
-    .task-actions {
-      margin-top: 5px;
-    }
-    .task-actions button {
-      width: auto;
-      margin-right: 10px;
-      background-color: #f44336;
-    }
-    .task-actions button.complete {
-      background-color: #2196F3;
-    }
-  </style>
+  <link rel="stylesheet" href="../Styles/task.css">
 </head>
 <body>
 
@@ -75,7 +35,7 @@
       const description = document.getElementById('description').value;
       const due_date = document.getElementById('due_date').value;
 
-      fetch('../api/add_task.php', {
+      fetch('https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/add_task.php', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -96,7 +56,7 @@
     });
 
     function loadTasks() {
-      fetch('../api/get_tasks.php')
+      fetch('https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/get_tasks.php')
         .then(res => res.json())
         .then(data => {
           const container = document.getElementById('taskContainer');
@@ -125,7 +85,7 @@
     }
 
     function completeTask(id) {
-      fetch('../api/complete.php', {
+      fetch('https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/complete.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ task_id: id })
@@ -138,7 +98,7 @@
     }
 
     function deleteTask(id) {
-      fetch('../api/delete_task.php', {
+      fetch('https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/delete_task.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ task_id: id })

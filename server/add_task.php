@@ -35,10 +35,8 @@ try {
     ]);
 
     //go back to the date
-    header("Location: ../server/dayView.php?day=$day&month=$month&year=$year");
+    header("Location: https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/dayView.php?day=$day&month=$month&year=$year");
     exit;
-
 } catch (PDOException $e) {
     echo "Error adding task: " . $e->getMessage();
 }
-?>

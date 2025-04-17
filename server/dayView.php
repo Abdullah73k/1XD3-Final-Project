@@ -40,7 +40,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Events for <?= "$day/" . ($month + 1) . "/$year"; ?></title>
-    <link rel="stylesheet" href="../Styles/dayView.css">
+    <link rel="stylesheet" href="../client/Styles/dayView.css">
 </head>
 <body>
     <h1>Events for <?= "$day/" . ($month + 1) . "/$year"; ?></h1>
@@ -67,7 +67,7 @@ try {
     </div>
 
     <h2>Add a New Task</h2>
-    <form action="./api/add_task.php" method="POST">
+    <form action="add_task.php" method="POST">
         <input type="hidden" name="day" value="<?= $day ?>">
         <input type="hidden" name="month" value="<?= $month ?>">
         <input type="hidden" name="year" value="<?= $year ?>">
