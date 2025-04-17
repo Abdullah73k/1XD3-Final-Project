@@ -3,7 +3,7 @@ include 'connect.php';
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /~khamia4/1XD3-Final-Project/client/views/login.html"); 
+    header("Location: /~khamia4/1XD3-Final-Project/client/views/login.html");
     exit;
 }
 
