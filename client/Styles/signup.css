@@ -16,7 +16,7 @@ h2 {
 }
 
 .signup {
-    width: 100%;
+    width: 92.5%;
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
@@ -56,7 +56,9 @@ label {
 }
 
 p {
-    font-size: 1.2rem;
+    font-size: 1rem;
+    margin: 1rem;
+    text-align: center;
 }
 
 #log-in-button {
