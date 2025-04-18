@@ -4,7 +4,16 @@ include('connect.php');
 
 header('Content-Type: application/json');
 
-// check the login
+header('Access-Control-Allow-Origin: https://cs1xd3.cas.mcmaster.ca');
+header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
 if (!isset($_SESSION['user_id'])) {
     echo json_encode([
         'success' => false,
@@ -13,12 +22,17 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// get JSON data
-$data = json_decode(file_get_contents('php://input'), true);
+$data = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title']) 
+    ? $_POST 
+    : json_decode(file_get_contents('php://input'), true);
 
 $title = trim($data['title'] ?? '');
 $description = trim($data['description'] ?? '');
 $due_date = $data['due_date'] ?? null;
+
+$day = $data['day'] ?? null;
+$month = $data['month'] ?? null;
+$year = $data['year'] ?? null;
 
 if ($title === '') {
     echo json_encode([
@@ -36,6 +50,11 @@ try {
         $description,
         $due_date ? date('Y-m-d H:i:s', strtotime($due_date)) : null
     ]);
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && $day !== null && $month !== null && $year !== null) {
+        header("Location: dayView.php?day=$day&month=$month&year=$year");
+        exit;
+    }
 
     echo json_encode([
         'success' => true,
