@@ -1,27 +1,30 @@
 <?php
-include '../connect.php';
 session_start();
+include '../connect.php';
 
-// check log in
+header('Content-Type: application/json');
+
+// check the login
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../views/login.html");
+    echo json_encode([
+        'success' => false,
+        'message' => 'You are not logged in.'
+    ]);
     exit;
 }
 
-$title = trim($_POST['title'] ?? '');
-$description = trim($_POST['description'] ?? '');
+// get JSON data
+$data = json_decode(file_get_contents('php://input'), true);
 
-$day = $_POST['day'] ?? '';
-$month = $_POST['month'] ?? '';
-$year = $_POST['year'] ?? '';
-
-$due_date = null;
-if ($day && $month !== '' && $year) {
-    $due_date = sprintf('%04d-%02d-%02d 00:00:00', $year, $month + 1, $day);
-}
+$title = trim($data['title'] ?? '');
+$description = trim($data['description'] ?? '');
+$due_date = $data['due_date'] ?? null;
 
 if ($title === '') {
-    echo "Title is required.";
+    echo json_encode([
+        'success' => false,
+        'message' => 'Title is required.'
+    ]);
     exit;
 }
 
@@ -31,12 +34,16 @@ try {
         $_SESSION['user_id'],
         $title,
         $description,
-        $due_date
+        $due_date ? date('Y-m-d H:i:s', strtotime($due_date)) : null
     ]);
 
-    //go back to the date
-    header("Location: https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/dayView.php?day=$day&month=$month&year=$year");
-    exit;
+    echo json_encode([
+        'success' => true,
+        'message' => 'Task added successfully.'
+    ]);
 } catch (PDOException $e) {
-    echo "Error adding task: " . $e->getMessage();
+    echo json_encode([
+        'success' => false,
+        'message' => 'DB Error: ' . $e->getMessage()
+    ]);
 }
