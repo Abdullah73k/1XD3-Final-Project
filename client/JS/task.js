@@ -59,17 +59,33 @@ document.getElementById('taskForm').addEventListener('submit', function(e) {
   
   function completeTask(id) {
     fetch('https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/complete.php', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: "include",
-      body: JSON.stringify({ task_id: id })
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: "include",
+        body: JSON.stringify({ task_id: id })
     })
     .then(res => res.json())
     .then(data => {
-      alert(data.message);
-      loadTasks();
+        alert(data.message);
+        loadTasks();
+    //BAVISHAN ADD
+        // Check for new achievements
+        return fetch('https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/check_achievements.php', {
+            credentials: "include"
+        });
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success && data.unlocked.length > 0) {
+            data.unlocked.forEach(achievement => {
+                alert(`Achievement Unlocked: ${achievement.name}\n${achievement.description}`);
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
     });
-  }
+}
   
   function deleteTask(id) {
     fetch('https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/delete_task.php', {

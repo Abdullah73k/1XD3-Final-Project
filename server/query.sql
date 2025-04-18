@@ -73,9 +73,27 @@ INSERT INTO schedules (task_id, start_time, end_time) VALUES
 (6, '2023-11-18 09:30:00', '2023-11-18 11:00:00');
 
 -- Achievements sample data
+--BAVISHAN ADD
 INSERT INTO achievements (name, description, condition_type, condition_value) VALUES
+-- Original achievements
 ('Early Bird', 'Complete 5 tasks before 9 AM', 'morning_tasks', 5),
 ('Night Owl', 'Complete 5 tasks after 8 PM', 'evening_tasks', 5),
 ('Task Master', 'Complete 20 tasks in total', 'total_tasks', 20),
 ('Perfect Week', 'Complete all scheduled tasks in a week', 'weekly_completion', 1),
-('Marathon', 'Complete tasks for 30 consecutive days', 'streak_days', 30);
+('Marathon', 'Complete tasks for 30 consecutive days', 'streak_days', 30),
+
+-- New task-related achievements
+('Getting Started', 'Complete your first task', 'total_tasks', 1),
+('Task Novice', 'Complete 5 tasks', 'total_tasks', 5),
+('Task Apprentice', 'Complete 10 tasks', 'total_tasks', 10),
+('Task Expert', 'Complete 20 tasks', 'total_tasks', 20),
+('Task Champion', 'Complete 50 tasks', 'total_tasks', 50),
+('Task Legend', 'Complete 100 tasks', 'total_tasks', 100),
+('Productive Day', 'Complete 3 tasks in one day', 'daily_tasks', 3),
+('Super Productive', 'Complete 5 tasks in one day', 'daily_tasks', 5),
+('Weekend Warrior', 'Complete tasks on both Saturday and Sunday', 'weekend_tasks', 2),
+('Morning Person', 'Complete 3 tasks before noon', 'morning_completions', 3),
+('Afternoon Achiever', 'Complete 3 tasks between 12-5 PM', 'afternoon_completions', 3),
+('Evening Star', 'Complete 3 tasks after 5 PM', 'evening_completions', 3),
+('Consistent Performer', 'Complete at least 1 task every day for 7 days', 'streak_days', 7),
+('Task Ninja', 'Complete 5 tasks in a row without missing any days', 'perfect_streak', 5);
