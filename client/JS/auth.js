@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				if (data) {
 					console.log("Success, here's the data:", data);
 					if (action === "login" && data["success"] === true) {
-						window.location.href = "./views/calendar.html";
+						window.location.href = "./calendar.html";
 					} else if (action === "signup" && data["success"] === true) {
 						window.location.href = "../index.html";
 					} else {

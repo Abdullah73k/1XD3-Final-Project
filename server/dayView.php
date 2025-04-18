@@ -81,7 +81,7 @@ try {
         <button type="submit">➕ Add Task</button>
     </form>
 
-    <a href="/~khamia4/1XD3-Final-Project/client/views/calendar.html">Back to Calendar</a>
+    <a href="/~khamia4/1XD3-Final-Project/client/calendar.html">Back to Calendar</a>
 
     <script>
         function completeTask(id) {
