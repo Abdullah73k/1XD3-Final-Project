@@ -2,11 +2,18 @@
 session_start();
 
 header('Content-Type: application/json');
+
 header('Access-Control-Allow-Origin: https://cs1xd3.cas.mcmaster.ca');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
 
-include '../connect.php';
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
+require_once(__DIR__ . '/../connect.php');
 
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -24,7 +31,6 @@ if (!$email || !$password || $action === '') {
 
 try {
     if ($action === 'signup') {
-        // Server-side email validation
         $emailRegex = '/^[^\s@]+@([^\s@]+)\.([^\s@]+)$/';
         if (!preg_match($emailRegex, $email)) {
             echo json_encode([
@@ -33,19 +39,18 @@ try {
             ]);
             exit;
         }
-        
-        // Check if email domain is from a common provider
+
         $validEmailDomains = ["gmail", "hotmail", "outlook", "yahoo", "icloud", "aol", "protonmail"];
         $emailDomain = strtolower(explode('@', $email)[1]);
         $isDomainValid = false;
-        
+
         foreach ($validEmailDomains as $domain) {
             if (strpos($emailDomain, $domain) !== false) {
                 $isDomainValid = true;
                 break;
             }
         }
-        
+
         if (!$isDomainValid) {
             echo json_encode([
                 'success' => false,
@@ -53,8 +58,7 @@ try {
             ]);
             exit;
         }
-        
-        // Server-side password validation
+
         if (strlen($password) < 8) {
             echo json_encode([
                 'success' => false,
@@ -62,7 +66,7 @@ try {
             ]);
             exit;
         }
-        
+
         if (!preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password)) {
             echo json_encode([
                 'success' => false,
