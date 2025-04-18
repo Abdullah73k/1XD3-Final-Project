@@ -3,7 +3,6 @@ session_start();
 include('connect.php');
 
 header('Content-Type: application/json');
-
 header('Access-Control-Allow-Origin: https://cs1xd3.cas.mcmaster.ca');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Credentials: true');
@@ -33,6 +32,10 @@ $due_date = $data['due_date'] ?? null;
 $day = $data['day'] ?? null;
 $month = $data['month'] ?? null;
 $year = $data['year'] ?? null;
+
+if (!$due_date && $day !== null && $month !== null && $year !== null) {
+    $due_date = sprintf('%04d-%02d-%02d 12:00:00', $year, $month + 1, $day);
+}
 
 if ($title === '') {
     echo json_encode([
