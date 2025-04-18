@@ -15,12 +15,11 @@ $dateStr = sprintf('%04d-%02d-%02d', $year, $month + 1, $day);
 
 try {
     $stmt = $dbh->prepare("
-        SELECT t.title, t.description, t.status, s.start_time, s.end_time 
+        SELECT t.id, t.title, t.description, t.status, t.due_date
         FROM tasks t
-        LEFT JOIN schedules s ON t.id = s.task_id
         WHERE t.user_id = :user_id 
-        AND DATE(s.start_time) = :date
-        ORDER BY s.start_time
+        AND DATE(t.due_date) = :date
+        ORDER BY t.due_date
     ");
     
     $stmt->execute([
@@ -40,7 +39,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Events for <?= "$day/" . ($month + 1) . "/$year"; ?></title>
-    <link rel="stylesheet" href="../client/Styles/dayView.css">
+    <link rel="stylesheet" href="/~khamia4/1XD3-Final-Project/client/Styles/task.css">
 </head>
 <body>
     <h1>Events for <?= "$day/" . ($month + 1) . "/$year"; ?></h1>
@@ -51,15 +50,13 @@ try {
         <?php else: ?>
             <ul class="events-list">
                 <?php foreach ($events as $event): ?>
-                    <li class="event-item">
+                    <li class="event-item" data-id="<?= $event['id'] ?>">
                         <h3><?= htmlspecialchars($event['title']) ?></h3>
                         <p><?= htmlspecialchars($event['description']) ?></p>
                         <p>Status: <?= htmlspecialchars($event['status']) ?></p>
-                        <?php if ($event['start_time']): ?>
-                            <p>Time: 
-                                <?= date('H:i', strtotime($event['start_time'])) . ' - ' . date('H:i', strtotime($event['end_time'])) ?>
-                            </p>
-                        <?php endif; ?>
+                        <p>Due at: <?= htmlspecialchars($event['due_date']) ?></p>
+                        <button onclick="completeTask(<?= $event['id'] ?>)">✔ Complete</button>
+                        <button onclick="deleteTask(<?= $event['id'] ?>)">🗑 Delete</button>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -78,9 +75,44 @@ try {
         <label>Description:</label>
         <textarea name="description" rows="3"></textarea><br>
 
+        <label>Due Date:</label>
+        <input type="datetime-local" name="due_date" required><br>
+
         <button type="submit">➕ Add Task</button>
     </form>
 
-    <a href="./index.html">Back to Calendar</a>
+    <a href="/~khamia4/1XD3-Final-Project/client/index.html">Back to Calendar</a>
+
+    <script>
+        function completeTask(id) {
+            fetch('complete.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ task_id: id })
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                location.reload();
+            });
+        }
+
+        function deleteTask(id) {
+            if (!confirm('Are you sure you want to delete this task?')) return;
+
+            fetch('delete_task.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ task_id: id })
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                location.reload();
+            });
+        }
+    </script>
 </body>
 </html>
