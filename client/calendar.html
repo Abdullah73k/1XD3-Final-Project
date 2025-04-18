@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Calendar</title>
     <link rel="stylesheet" href="./Styles/calendar.css">
+    <link rel="stylesheet" href="./Styles/achievements.css">
 </head>
 <body>
     <main class="calendar-container">
@@ -66,10 +67,20 @@
                            placeholder="Enter year">
                 </div>
                 <button type="submit" class="submit-button">Show Calendar</button>
-                <button id="showAchievements" class="submit-button">View Achievements</button>
             </form>
+            <button id="showAchievements" class="submit-button" type = "button">View Achievements</button>
         </section>
     </main>
+    <!-- Achievements Modal -->
+    <div id="achievementsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Your Achievements</h2>
+            <div id="achievementsList"></div>
+        </div>
+    </div>
+    
     <script src="./JS/calendar.js"></script>
+    <script src="./JS/achievements.js"></script>
 </body>
 </html>
