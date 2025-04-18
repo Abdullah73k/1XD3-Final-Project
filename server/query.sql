@@ -24,6 +24,14 @@ CREATE TABLE tasks (
         ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
+CREATE TABLE user_achievements (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    achievement_id INT NOT NULL,
+    completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (achievement_id) REFERENCES achievements(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
 -- Schedules table
 CREATE TABLE schedules (
     id INT AUTO_INCREMENT PRIMARY KEY,
