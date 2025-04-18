@@ -88,9 +88,9 @@ document.addEventListener("DOMContentLoaded", () => {
 				if (data) {
 					console.log("Success, here's the data:", data);
 					if (action === "login" && data["success"] === true) {
-						window.location.href = "../index.html";
+						window.location.href = "./views/calendar.html";
 					} else if (action === "signup" && data["success"] === true) {
-						window.location.href = "../views/login.html";
+						window.location.href = "../index.html";
 					} else {
 						const errorMessage = document.getElementById("p");
 						errorMessage.textContent = data["message"];
