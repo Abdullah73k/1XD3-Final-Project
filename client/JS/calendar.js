@@ -35,9 +35,14 @@ window.addEventListener("load", () => {
 		renderCalendar(currentMonth, currentYear);
 	});
 
-	showTodayBtn.addEventListener("click", ()=>{
-		let date = new Date().getDate();
-        window.location.href = `server/dayView.php?day=${date}&month=${currentMonth}&year=${currentYear}`;
+	showTodayBtn.addEventListener("click", () => {
+		let today = new Date();
+
+		date = today.getDate();
+		month = today.getMonth();
+		year = today.getFullYear();
+
+		window.location.href = `server/dayView.php?day=${date}&month=${month}&year=${year}`;
 	});
 
 	generateForm.addEventListener("submit", (event) => {
