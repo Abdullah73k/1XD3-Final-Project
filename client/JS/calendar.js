@@ -9,6 +9,7 @@ window.addEventListener("load", () => {
 	const generateForm = document.getElementById("generateForm");
 	const prevMonthBtn = document.getElementById("prevMonth");
 	const nextMonthBtn = document.getElementById("nextMonth");
+	const showTodayBtn = document.getElementById("showToday");
 	const monthSelect = document.getElementById("month");
 	const yearInput = document.getElementById("year");
 
@@ -32,6 +33,11 @@ window.addEventListener("load", () => {
 			currentYear++;
 		}
 		renderCalendar(currentMonth, currentYear);
+	});
+
+	showTodayBtn.addEventListener("click", ()=>{
+		let date = new Date().getDate();
+        window.location.href = `server/dayView.php?day=${date}&month=${currentMonth}&year=${currentYear}`;
 	});
 
 	generateForm.addEventListener("submit", (event) => {
@@ -86,7 +92,6 @@ window.addEventListener("load", () => {
 				} else {
 					// Cells with dates
 					cell.innerHTML = `<a href="server/dayView.php?day=${date}&month=${month}&year=${year}">${date}</a>`;
-
 
 					// Highlight current day
 					const today = new Date();
