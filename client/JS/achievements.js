@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     function fetchAchievements() {
-        fetch('https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/get_achievements.php', {
+        fetch('server/get_achievements.php', {
             credentials: "include"
         })
         .then(res => res.json())

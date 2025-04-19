@@ -5,7 +5,7 @@ document.getElementById('taskForm').addEventListener('submit', function(e) {
     const description = document.getElementById('description').value;
     const due_date = document.getElementById('due_date').value;
   
-    fetch('https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/add_task.php', {
+    fetch('server/add_task.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -27,7 +27,7 @@ document.getElementById('taskForm').addEventListener('submit', function(e) {
   });
   
   function loadTasks() {
-    fetch('https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/get_tasks.php', {
+    fetch('/server/get_tasks.php', {
       credentials: "include"
     })
     .then(res => res.json())
@@ -58,7 +58,7 @@ document.getElementById('taskForm').addEventListener('submit', function(e) {
   }
   
   function completeTask(id) {
-    fetch('https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/complete.php', {
+    fetch('/server/complete.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: "include",
@@ -70,7 +70,7 @@ document.getElementById('taskForm').addEventListener('submit', function(e) {
         loadTasks();
     //BAVISHAN ADD
         // Check for new achievements
-        return fetch('https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/check_achievements.php', {
+        return fetch('server/check_achievements.php', {
             credentials: "include"
         });
     })
@@ -88,7 +88,7 @@ document.getElementById('taskForm').addEventListener('submit', function(e) {
 }
   
   function deleteTask(id) {
-    fetch('https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/delete_task.php', {
+    fetch('/server/delete_task.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: "include",

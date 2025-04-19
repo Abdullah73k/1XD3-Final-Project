@@ -3,7 +3,7 @@ include 'connect.php';
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /~khamia4/1XD3-Final-Project/client/views/login.html");
+    header("Location: ../client/index.html");
     exit;
 }
 
@@ -39,7 +39,8 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Events for <?= "$day/" . ($month + 1) . "/$year"; ?></title>
-    <link rel="stylesheet" href="/~khamia4/1XD3-Final-Project/client/Styles/task.css">
+    <base href="..">
+    <link rel="stylesheet" href="client/Styles/task.css">
 </head>
 <body>
     <h1>Events for <?= "$day/" . ($month + 1) . "/$year"; ?></h1>
@@ -64,7 +65,7 @@ try {
     </div>
 
     <h2>Add a New Task</h2>
-    <form action="add_task.php" method="POST">
+    <form action="server/add_task.php" method="POST">
         <input type="hidden" name="day" value="<?= $day ?>">
         <input type="hidden" name="month" value="<?= $month ?>">
         <input type="hidden" name="year" value="<?= $year ?>">
@@ -81,11 +82,11 @@ try {
         <button type="submit">➕ Add Task</button>
     </form>
 
-    <a href="/~khamia4/1XD3-Final-Project/client/calendar.html">Back to Calendar</a>
+    <a href="client/calendar.html">Back to Calendar</a>
 
     <script>
         function completeTask(id) {
-            fetch('complete.php', {
+            fetch('server/complete.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -101,7 +102,7 @@ try {
         function deleteTask(id) {
             if (!confirm('Are you sure you want to delete this task?')) return;
 
-            fetch('delete_task.php', {
+            fetch('server/delete_task.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

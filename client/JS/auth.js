@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		console.log(payload);
 		fetch(
-			"https://cs1xd3.cas.mcmaster.ca/~khamia4/1XD3-Final-Project/server/auth/auth.php",
+			"server/auth/auth.php",
 			{
 				method: "POST",
 				credentials: "include",
@@ -88,9 +88,9 @@ document.addEventListener("DOMContentLoaded", () => {
 				if (data) {
 					console.log("Success, here's the data:", data);
 					if (action === "login" && data["success"] === true) {
-						window.location.href = "./calendar.html";
+						window.location.href = "client/calendar.html";
 					} else if (action === "signup" && data["success"] === true) {
-						window.location.href = "../index.html";
+						window.location.href = "client/index.html";
 					} else {
 						const errorMessage = document.getElementById("p");
 						errorMessage.textContent = data["message"];

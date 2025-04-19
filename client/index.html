@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Page</title>
-    <link rel="stylesheet" href="./Styles/login.css">
+    <base href="..">
+    <link rel="stylesheet" href="client/Styles/login.css">
   </head>
   <body>
     <h2>Login</h2>
@@ -22,10 +23,10 @@
     </div>
     
 	<p id="p"></p>
-    <script src="./JS/auth.js"></script>
+    <script src="client/JS/auth.js"></script>
     <script>
       document.getElementById("sign-up-button").addEventListener("click", () => {
-        window.location.href = "./views/signup.html";
+        window.location.href = "client/views/signup.html";
       });
     </script>
   </body>
